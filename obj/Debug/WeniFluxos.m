@@ -1,8 +1,6 @@
 ﻿section WeniFluxos;
 
-BaseUrl = "https://push-staging.push.al/api/v2/";
-
-// BaseUrl = "https://new.push.al/api/v2/";
+BaseUrl = "https://new.push.al/api/v2/";
 
 WeniFluxos.RootEntities = {
     "broadcasts.json",
