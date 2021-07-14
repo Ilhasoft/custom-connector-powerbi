@@ -6,7 +6,7 @@ This is a Power BI Custom Connector for Weni Fluxos API.
 ### Instalation
 
 1. Download the connector file.
- - ([download here](https://github.com/Ilhasoft/custom-connector-powerbi/blob/main/bin/Debug/WeniFluxos.mez "download here"))
+ - ([download here](https://github.com/Ilhasoft/custom-connector-powerbi/releases "download here"))
 2. Copy file to [Documents]/Power BI Desktop/Custom Connectors. 
  - (If you don't have these folders on your computer, you must create them)
 3. Check the Allow any extensions to load without validation or warning in Power BI Desktop option under (File > Options > Security > Data Extensions).
