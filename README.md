@@ -19,3 +19,12 @@ This is a Power BI Custom Connector for Weni Fluxos API.
 3. A popup will appear to confirm if you want to connect to a third party service, confirm by clicking“Continue”.
 4. Enter the token of the organization you want to get the data for, and optionally define the time period for which the data was created.
 5. Select the items you want and click transform or load data.
+
+## Additional links and resources
+[M Library Functions](https://docs.microsoft.com/en-us/powerquery-m/power-query-m-function-reference)
+
+[M Language Specification](https://docs.microsoft.com/en-us/powerquery-m/power-query-m-language-specification)
+
+[Power BI Developer Center](https://powerbi.microsoft.com/developers/)
+
+[Starting to Develop Custom Connectors](https://docs.microsoft.com/en-us/power-query/startingtodevelopcustomconnectors)
