@@ -117,13 +117,13 @@ WeniFluxos = [
 WeniFluxos.Publish = [
     Beta = true,
     Category = "Other",
-    ButtonText = { "Weni Fluxos API", "Weni Fluxos API" },
+    ButtonText = { Extension.LoadString("ButtonTitle"), Extension.LoadString("ButtonHelp") },
     LearnMoreUrl = BaseUrl,
     SourceImage = WeniFluxos.Icons,
     SourceTypeImage = WeniFluxos.Icons
 ];
 
 WeniFluxos.Icons = [
-    Icon16 = { Extension.Contents("WeniFluxos16.png"), Extension.Contents("WeniFluxos20.png"), Extension.Contents("WeniFluxos24.png"), Extension.Contents("WeniFluxos32.png") },
-    Icon32 = { Extension.Contents("WeniFluxos32.png"), Extension.Contents("WeniFluxos40.png"), Extension.Contents("WeniFluxos48.png"), Extension.Contents("WeniFluxos64.png") }
+    Icon16 = { Extension.Contents("icons/WeniFluxos16.png"), Extension.Contents("icons/WeniFluxos20.png"), Extension.Contents("icons/WeniFluxos24.png"), Extension.Contents("icons/WeniFluxos32.png") },
+    Icon32 = { Extension.Contents("icons/WeniFluxos32.png"), Extension.Contents("icons/WeniFluxos40.png"), Extension.Contents("icons/WeniFluxos48.png"), Extension.Contents("icons/WeniFluxos64.png") }
 ];

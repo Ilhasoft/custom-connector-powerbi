@@ -42,6 +42,27 @@
     <Compile Include="WeniFluxos16.png">
       <SubType>Code</SubType>
     </Compile>
+	<Compile Include="WeniFluxos20.png">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="WeniFluxos24.png">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="WeniFluxos32.png">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="WeniFluxos40.png">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="WeniFluxos48.png">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="WeniFluxos64.png">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="WeniFluxos80.png">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="resources.resx">
       <SubType>Code</SubType>
     </Compile>
