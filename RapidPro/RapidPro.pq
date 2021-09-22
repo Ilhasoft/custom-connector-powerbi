@@ -1,4 +1,5 @@
-﻿section RapidPro;
+﻿[Version = "1.0.0"]
+section RapidPro;
 
 RapidPro.RootEntities = {
     "broadcasts.json",
@@ -122,6 +123,6 @@ RapidPro.Publish = [
 ];
 
 RapidPro.Icons = [
-    Icon16 = { Extension.Contents("icons/RapidPro16.png"), Extension.Contents("icons/RapidPro20.png"), Extension.Contents("icons/RapidPro24.png"), Extension.Contents("icons/RapidPro32.png") },
-    Icon32 = { Extension.Contents("icons/RapidPro32.png"), Extension.Contents("icons/RapidPro40.png"), Extension.Contents("icons/RapidPro48.png"), Extension.Contents("icons/RapidPro64.png") }
+    Icon16 = { Extension.Contents("RapidPro16.png"), Extension.Contents("RapidPro20.png"), Extension.Contents("RapidPro24.png"), Extension.Contents("RapidPro32.png") },
+    Icon32 = { Extension.Contents("RapidPro32.png"), Extension.Contents("RapidPro40.png"), Extension.Contents("RapidPro48.png"), Extension.Contents("RapidPro64.png") }
 ];
