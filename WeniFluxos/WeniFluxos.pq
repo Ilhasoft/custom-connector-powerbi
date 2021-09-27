@@ -13,6 +13,13 @@ WeniFluxos.RootEntities = {
     "runs.json"
 };
 
+shared WeniFluxos.ConnectionTest = () =>
+    let
+        source = Web.Contents(BaseUrl),
+        res = Xml.Document(source)
+    in
+        res;
+
 [DataSource.Kind="WeniFluxos", Publish="WeniFluxos.Publish"]
 shared WeniFluxos.Contents = (token as text, optional after as datetime, optional before as datetime) => WeniFluxosNavTable(BaseUrl, token, after, before) as table;
 
@@ -109,6 +116,7 @@ GetPage = (url as text, token as text, after as nullable datetime, before as nul
 GetNextLink = (response) as nullable text => Record.FieldOrDefault(response, "next");
 
 WeniFluxos = [
+    TestConnection = (dataSourcePath) => { "WeniFluxos.ConnectionTest" },
     Authentication = [
         Implicit = []
     ],

@@ -11,6 +11,15 @@ RapidPro.RootEntities = {
     "runs.json"
 };
 
+DefaultBaseURL = "https://rapidpro.ilhasoft.mobi";
+
+shared RapidPro.ConnectionTest = () =>
+    let
+        source = Web.Contents(DefaultBaseURL),
+        res = Xml.Document(source)
+    in
+        res;
+
 [DataSource.Kind="RapidPro", Publish="RapidPro.Publish"]
 shared RapidPro.Contents = (url as text, token as text, optional after as datetime, optional before as datetime) => CCNavTable(url, token, after, before) as table;
 
@@ -107,6 +116,7 @@ GetPage = (url as text, token as text, after as nullable datetime, before as nul
 GetNextLink = (response) as nullable text => Record.FieldOrDefault(response, "next");
 
 RapidPro = [
+    TestConnection = (dataSourcePath) => { "RapidPro.ConnectionTest" },
     Authentication = [
         Implicit = []
     ],
