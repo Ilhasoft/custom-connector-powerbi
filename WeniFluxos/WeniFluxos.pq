@@ -1,4 +1,4 @@
-﻿[Version = "1.0.0"]
+﻿[Version = "1.0.1"]
 section WeniFluxos;
 
 BaseUrl = "https://new.push.al/api/v2/";
@@ -12,6 +12,10 @@ WeniFluxos.RootEntities = {
     "messages.json",
     "runs.json"
 };
+
+MaxAttempts = 3;
+
+AttemptTimeMultiplier = 5;
 
 [DataSource.Kind="WeniFluxos", Publish="WeniFluxos.Publish"]
 shared WeniFluxos.Contents = (token as text, optional after as datetime, optional before as datetime) => WeniFluxosNavTable(BaseUrl, token, after, before) as table;
@@ -90,21 +94,45 @@ GetPage = (url as text, token as text, after as nullable datetime, before as nul
             Headers = [
                 #"Accept" = "application/json",
                 #"Authorization" = "Token " & token
-            ]
+            ],
+            ManualStatusHandling = {429,502}
         ],
         afterQ = if (after = null) then [] else [after = DateTime.ToText(after, "yyyy-MM-ddThh:mm:ss")],
         beforeQ = if (before = null) then [] else [before = DateTime.ToText(before, "yyyy-MM-ddThh:mm:ss")],
         query = Record.Combine({afterQ, beforeQ}),
         optionsWithQuery = Record.AddField(options, "Query", query), 
-        response = Web.Contents(
-            url, 
-            optionsWithQuery
-        ),
-        body = Json.Document(response, 1252),
+        res = TryRequest(url, optionsWithQuery, 0, false),
+        body = Json.Document(res, 1252),
         nextLink = GetNextLink(body),
         data = Table.FromRecords(body[results])
     in
         data meta [NextLink = nextLink];
+
+TryRequest = (url as text, reqOptions as record, tryCount as number, isRetry as logical) as binary =>
+    let
+        count = tryCount + 1,
+        opts = if isRetry then
+            Record.AddField(reqOptions, "IsRetry", true)
+        else
+            reqOptions,
+        response = Web.Contents(url, opts),
+        responseMetadata = Value.Metadata(response),
+        responseCode = responseMetadata[Response.Status],
+        resp = if responseCode <> 200 and count <= MaxAttempts then 
+            if responseCode = 429 then
+                Function.InvokeAfter(
+                    () => TryRequest(url, reqOptions, count, true),
+                    #duration(0,1,1,0)
+                )
+            else
+                Function.InvokeAfter(
+                    () => TryRequest(url, reqOptions, count, true), 
+                    #duration(0,0,0, count*AttemptTimeMultiplier)
+                )
+        else 
+            response
+    in
+        resp;
 
 GetNextLink = (response) as nullable text => Record.FieldOrDefault(response, "next");
 
