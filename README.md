@@ -6,8 +6,8 @@ This repository intends to keep the Power BI Custom Connector for Weni Fluxos AP
 ### Instalation
 
 1. Download the .mez file of the desired connector from this repo.
- - (link to download [Rapidpro.mez](https://github.com/Ilhasoft/custom-connector-powerbi/releases/download/v0.1-alpha/RapidPro.mez))
- - (link to download [WeniFlows.mez](https://github.com/Ilhasoft/custom-connector-powerbi/releases/download/v0.1-alpha/WeniFluxos.mez))
+ - (link to download [Rapidpro.mez](https://github.com/Ilhasoft/custom-connector-powerbi/releases/download/v1.0.1/RapidPro.mez))
+ - (link to download [WeniFlows.mez](https://github.com/Ilhasoft/custom-connector-powerbi/releases/download/v1.0.1/WeniFluxos.mez))
 2. Copy downloaded file to [Documents]/Power BI Desktop/Custom Connectors. 
  - (If you don't have these folders on your computer, you must create them)
 3. Check the Allow any extensions to load without validation or warning in Power BI Desktop option under (File > Options > Security > Data Extensions).
