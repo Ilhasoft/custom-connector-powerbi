@@ -7,183 +7,117 @@ It can be rendered in tools that support [mermaid](https://mermaid-js.github.io/
 erDiagram
 
 channel {
-  id serial4 
-  is_active bool 
-  created_on timestampz 
-  modified_on timestampz 
-  uuid varchar 
-  channel_type varchar 
-  name varchar
-  address varchar
-  country varchar
-  claim_code varchar 
-  secret varchar 
-  last_seen timestampz 
-  device varchar
-  os varchar
-  alert_email varchar
-  config text
-  schemes varchar 
-  role varchar 
-  bod text
-  tps int4
-  created_by_id int4 
-  modified_by_id int4 
-  org_id int4
-  parent_id int4
+    uuid string
+    name string
+    address string
+    country string
+    device string
+    name string
+    power_level int
+    power_status string
+    power_source string
+    network_type string
+    last_seen datetime
+    created_on datetime
 }
 
 message {
-  id bigserial 
-  uuid uuid
-  text text 
-  high_priority bool
-  created_on timestampz 
-  modified_on timestampz
-  sent_on timestampz
-  queued_on timestampz
-  direction varchar 
-  status varchar 
-  visibility varchar 
-  msg_type varchar
-  msg_count int4 
-  error_count int4 
-  next_attempt timestampz
-  external_id varchar
-  attachments varchar
-  metadata text
-  delete_reason varchar
-  broadcast_id int4
-  channel_id int4
-  contact_id int4 
-  contact_urn_id int4
-  org_id int4 
-  topup_id int4
-  delete_from_counts bool
-  failed_reason varchar
+    id int
+    broadcast int
+    contact string
+    urn string
+    channel string
+    direction string
+    type string
+    status string
+    visibility string
+    text string
+    attachments array
+    labels array
+    created_on datetime
+    sent_on datetime
+    modified_on datetime
 }
 
 contact {
-  id serial4 
-  is_active bool 
-  created_on timestampz 
-  modified_on timestampz 
-  uuid varchar 
-  name varchar
-  language varchar
-  fields jsonb
-  status varchar 
-  last_seen_on timestampz
-  created_by_id int4
-  modified_by_id int4
-  org_id int4 
-  ticket_count int4 
+    uuid string
+    name string
+    language string
+    urns array
+    groups array
+    fields dictionary
+    blocked boolean
+    stopped boolean
+    created_on datetime
+    modified_on datetime
+    last_seen_on datetime
 }
 
 flow {
-  id serial4 
-  is_active bool 
-  created_on timestampz 
-  modified_on timestampz 
-  uuid varchar 
-  name varchar 
-  is_archived bool 
-  is_system bool 
-  flow_type varchar 
-  metadata text
-  expires_after_minutes int4 
-  ignore_triggers bool 
-  saved_on timestampz 
-  base_language varchar
-  version_number varchar 
-  created_by_id int4 
-  modified_by_id int4 
-  org_id int4 
-  saved_by_id int4 
-  has_issues bool 
+    uuid string
+    name string
+    type string
+    archived boolean
+    labels array
+    expires integer
+    runs object
+    results array
+    parent_refs array
+    created_on datetime
+    modified_on datetime
 }
 
 run {
-  id bigserial 
-  uuid uuid 
-  status varchar 
-  created_on timestampz 
-  modified_on timestampz 
-  exited_on timestampz
-  expires_on timestampz
-  responded bool 
-  parent_uuid uuid
-  results text
-  path text
-  events jsonb
-  current_node_uuid uuid
-  delete_reason varchar
-  is_active bool 
-  exit_type varchar
-  connection_id int4
-  contact_id int4 
-  flow_id int4 
-  org_id int4 
-  session_id int8
-  start_id int4
-  submitted_by_id int4
+    uuid string
+    flow string
+    contact string
+    start string
+    responded boolean
+    values array
+    created_on datetime
+    modified_on datetime
+    exited_on datetime
+    exit_type string
 }
 
 broadcast {
-  id serial4 
-  raw_urns text
-  text hstore 
-  media hstore
-  status varchar 
-  base_language varchar 
-  created_on timestampz 
-  modified_on timestampz 
-  send_all bool 
-  metadata text
-  channel_id int4
-  created_by_id int4
-  modified_by_id int4
-  org_id int4 
-  parent_id int4
-  schedule_id int4 
-  ticket_id int4
+    id int
+    urns string
+    contacts array
+    groups array
+    text string
+    status string
+    created_on datetime
 }
 
 flowstart {
-  id serial4 
-  uuid uuid 
-  start_type varchar 
-  urns text
-  query text
-  restart_participants bool 
-  include_active bool 
-  status varchar 
-  extra text
-  parent_summary jsonb
-  session_history jsonb
-  created_on timestampz 
-  modified_on timestampz 
-  contact_count int4
-  campaign_event_id int4
-  created_by_id int4
-  flow_id int4 
-  org_id int4 
+    uuid string
+    flow object
+    contacts array
+    groups array
+    restart_participants boolean
+    exclude_active boolean
+    status string
+    params object
+    created_on datetime
+    modified_on datetime
 }
 
 broadcast |o--o{ message: relation
 
-channel ||--o{ message: has
+channel ||--o{ message: relation
 
-contact ||--o{ message: has
+contact ||--o{ message: relation
 
-contact ||--o{ run: has
+contact ||--o{ run: relation
 
-flow ||--o{ run: has
+flow ||--o{ run: relation
 
-flowstart |o--o{ run: has
+flowstart |o--o{ run: relation
 
-channel ||--o{ broadcast: has
+channel ||--o{ broadcast: relation
 
-flow ||--o{ flowstart: has
+flow ||--o{ flowstart: relation
+
 
 ```
