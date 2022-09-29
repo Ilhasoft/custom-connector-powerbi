@@ -31,3 +31,7 @@ This repository intends to keep the Power BI Custom Connector for Weni Fluxos AP
 [Power BI Developer Center](https://powerbi.microsoft.com/developers/)
 
 [Starting to Develop Custom Connectors](https://docs.microsoft.com/en-us/power-query/startingtodevelopcustomconnectors)
+
+[Diagram explaing the relationships of the data collected by PowerBI Connector](https://github.com/Ilhasoft/custom-connector-powerbi/blob/main/database_relationship.md)
+
+
