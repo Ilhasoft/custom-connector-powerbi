@@ -17,17 +17,40 @@ MaxAttempts = 3;
 
 AttemptTimeMultiplier = 5;
 
+shared WeniFluxos.ConnectionTest = () =>
+    let
+        source = Web.Contents(BaseUrl),
+        res = Xml.Document(source)
+    in
+        res;
+
 [DataSource.Kind="WeniFluxos", Publish="WeniFluxos.Publish"]
-shared WeniFluxos.Contents = (token as text, optional after as datetime, optional before as datetime) => WeniFluxosNavTable(BaseUrl, token, after, before) as table;
+shared WeniFluxos.Contents = Value.ReplaceType(ContentsImpl, ContentsType);
 
-WeniFluxos.GetData = (url as text, token as text, after as nullable datetime, before as nullable datetime) as table => GetAllPagesByNextLink(url, token, after, before);
+ContentsType = type function (
+    token as (type text meta [
+        Documentation.FieldCaption = "Token",
+        Documentation.FieldDescription = "User token used for authentication"
+    ]),
+    optional after as (type datetime meta [
+        Documentation.FieldCaption = "After",
+        Documentation.FieldDescription = "Only return data modified after this date"
+    ]),
+    optional before as (type datetime meta [
+        Documentation.FieldCaption = "Before",
+        Documentation.FIeldDescription = "Only return data modified before this date"
+    ])) 
+    as table meta [
+        Documentation.Name = "Weni Platform data",
+        Documentation.LongDescription = "Access to data from the weni platform, to get data from your project and transform it, create dashboards and track its metrics and growth."
+    ];
 
-WeniFluxosNavTable = (url as text, token as text, after as nullable datetime, before as nullable datetime) as table =>
+ContentsImpl = (token as text, optional after as datetime, optional before as datetime) as table =>
     let
         entitiesAsTable = Table.FromList(WeniFluxos.RootEntities, Splitter.SplitByNothing()),
         rename = Table.RenameColumns(entitiesAsTable, {{"Column1", "Endpoint"}}),
         withEntity = Table.AddColumn(rename, "Name", each Text.BeforeDelimiter([Endpoint],".")),
-        withData = Table.AddColumn(withEntity, "Data", each WeniFluxos.GetData(Uri.Combine(url, [Endpoint]), token, after, before), Uri.Type),
+        withData = Table.AddColumn(withEntity, "Data", each WeniFluxos.GetData(Uri.Combine(BaseUrl, [Endpoint]), token, after, before), Uri.Type),
         withItemKind = Table.AddColumn(withData, "ItemKind", each "Table", type text),
         withItemName = Table.AddColumn(withItemKind, "ItemName", each "Table", type text),
         withIsLeaf = Table.AddColumn(withItemName, "IsLeaf", each true, type logical),
@@ -35,6 +58,8 @@ WeniFluxosNavTable = (url as text, token as text, after as nullable datetime, be
         navTable = Table.ToNavigationTable(withoutEndpoint, {"Name"}, "Name", "Data", "ItemKind", "ItemName", "IsLeaf")
     in
         navTable;
+
+WeniFluxos.GetData = (url as text, token as text, after as nullable datetime, before as nullable datetime) as table => GetAllPagesByNextLink(url, token, after, before);
 
 Table.ToNavigationTable = (
     table as table,
@@ -137,6 +162,7 @@ TryRequest = (url as text, reqOptions as record, tryCount as number, isRetry as 
 GetNextLink = (response) as nullable text => Record.FieldOrDefault(response, "next");
 
 WeniFluxos = [
+    TestConnection = (dataSourcePath) => { "WeniFluxos.ConnectionTest" },
     Authentication = [
         Implicit = []
     ],
